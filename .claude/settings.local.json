@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:wu-yueming.github.io)",
+      "WebFetch(domain:jiaxiaojunqaq.github.io)",
+      "Bash(gh repo *)",
+      "Bash(git -C /tmp clone --depth 1 https://github.com/jiaxiaojunQAQ/jiaxiaojunQAQ.github.io.git)",
+      "Read(//tmp/**)",
+      "Bash(gh api *)",
+      "Bash(git clone *)",
+      "Bash(git *)"
+    ]
+  }
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Blog - Tongyang Xu">
+  <title>Blog | Tongyang Xu</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" type="image/jpg" href="../images/profile.jpg">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="profile-section">
+    <img src="../images/profile.jpg" alt="Tongyang Xu" class="profile-photo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22><rect fill=%22%234a90d9%22 width=%22140%22 height=%22140%22 rx=%2270%22/><text x=%2270%22 y=%2275%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2248%22 font-family=%22sans-serif%22>TX</text></svg>'">
+    <h1 class="profile-name">Tongyang Xu</h1>
+    <p class="profile-name-cn">徐烔炀</p>
+    <p class="profile-title">M.S. Student</p>
+    <p class="profile-affiliation">School of Cyber Science and Engineering<br>Southeast University, Nanjing</p>
+    <div class="profile-contact">
+      <a href="mailto:xuty1218@163.com" class="profile-email">xuty1218@163.com</a>
+      <span class="profile-wechat">WeChat: xuty1218</span>
+    </div>
+  </div>
+
+  <div class="social-links">
+    <a href="mailto:xuty1218@163.com">Email</a>
+    <a href="https://github.com/tongyangxu12" target="_blank">GitHub</a>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#about">About Me</a>
+    <a href="../index.html#news">News</a>
+    <a href="../index.html#research">Research</a>
+    <a href="../index.html#publications">Publications</a>
+    <a href="../index.html#blog">Blog</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <p>Last updated: 2026.05</p>
+  </div>
+</aside>
+
+<main class="main-content">
+  <section id="blog-page" class="section">
+    <h2 class="section-title">Blog</h2>
+    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+      My thoughts on research, technology, and life.
+    </p>
+    <div id="blog-posts-list">
+      <p style="color: var(--text-muted);">Loading posts...</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  // Check if we're viewing a single post
+  var params = new URLSearchParams(window.location.search);
+  var postSlug = params.get('post');
+
+  if (postSlug) {
+    // Fetch and render a single post
+    fetch('posts/' + encodeURIComponent(postSlug) + '.md')
+      .then(function (res) {
+        if (!res.ok) throw new Error('Post not found');
+        return res.text();
+      })
+      .then(function (md) {
+        renderPost(md, postSlug);
+      })
+      .catch(function () {
+        document.getElementById('blog-posts-list').innerHTML =
+          '<p style="color: #e74c3c;">Post not found. <a href="./">Back to blog list</a>.</p>';
+      });
+  } else {
+    // List all posts
+    fetch('posts/index.json')
+      .then(function (res) {
+        if (!res.ok) throw new Error('No posts');
+        return res.json();
+      })
+      .then(function (posts) {
+        if (!posts.length) {
+          document.getElementById('blog-posts-list').innerHTML =
+            '<p style="color: var(--text-muted); font-style: italic;">No blog posts yet.</p>';
+          return;
+        }
+
+        var html = '<ul class="blog-list">';
+        posts.forEach(function (post) {
+          var link, readMore;
+          if (post.url) {
+            link = post.url;
+            readMore = '<a href="' + post.url + '" target="_blank" style="color: var(--accent); font-size: 0.82rem; text-decoration: none;">Visit &rarr;</a>';
+          } else {
+            link = '?post=' + encodeURIComponent(post.slug);
+            readMore = '<a href="?post=' + encodeURIComponent(post.slug) + '" style="color: var(--accent); font-size: 0.82rem; text-decoration: none;">Read more &rarr;</a>';
+          }
+          var extIcon = post.url ? ' <span style="font-size:0.7rem;color:var(--text-muted);">&#x2197;</span>' : '';
+          html +=
+            '<li class="blog-item">' +
+            '<span class="blog-date">' + escapeHtml(post.date) + '</span>' +
+            '<h3 class="blog-title"><a href="' + link + '"' + (post.url ? ' target="_blank"' : '') + '>' + escapeHtml(post.title) + extIcon + '</a></h3>' +
+            '<p class="blog-excerpt">' + escapeHtml(post.excerpt || '') + '</p>' +
+            readMore +
+            '</li>';
+        });
+        html += '</ul>';
+        document.getElementById('blog-posts-list').innerHTML = html;
+      })
+      .catch(function () {
+        document.getElementById('blog-posts-list').innerHTML =
+          '<p style="color: var(--text-muted); font-style: italic;">No blog posts yet.</p>';
+      });
+  }
+
+  function renderPost(md, slug) {
+    // Find the post metadata
+    fetch('posts/index.json')
+      .then(function (res) { return res.json(); })
+      .then(function (posts) {
+        var meta = posts.find(function (p) { return p.slug === slug; });
+        return meta || { title: slug, date: '', excerpt: '' };
+      })
+      .catch(function () {
+        return { title: slug, date: '', excerpt: '' };
+      })
+      .then(function (meta) {
+        // Simple markdown to HTML conversion
+        var html = simpleMarkdown(md);
+
+        document.title = meta.title + ' | Tongyang Xu';
+
+        // Replace the main content
+        var main = document.querySelector('.main-content');
+        main.innerHTML =
+          '<a href="./" class="back-link">&larr; Back to Blog</a>' +
+          '<article class="blog-post">' +
+          '<header class="post-header">' +
+          (meta.date ? '<p class="post-date">' + escapeHtml(meta.date) + '</p>' : '') +
+          '<h1 class="post-title">' + escapeHtml(meta.title) + '</h1>' +
+          '</header>' +
+          '<div class="post-body">' + html + '</div>' +
+          '</article>';
+      });
+  }
+
+  function simpleMarkdown(md) {
+    var lines = md.split('\n');
+    var html = '';
+    var inCode = false;
+    var codeBuf = '';
+    var codeLang = '';
+    var inList = false;
+    var listTag = '';
+    var inBlockquote = false;
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+
+      // Code blocks
+      if (line.trim().startsWith('```')) {
+        if (inCode) {
+          html += '<pre><code' + (codeLang ? ' class="language-' + codeLang + '"' : '') + '>' +
+            escapeHtml(codeBuf.replace(/\n$/, '')) + '</code></pre>\n';
+          codeBuf = '';
+          codeLang = '';
+          inCode = false;
+        } else {
+          inCode = true;
+          codeLang = line.trim().slice(3).trim();
+        }
+        continue;
+      }
+
+      if (inCode) {
+        codeBuf += line + '\n';
+        continue;
+      }
+
+      // Frontmatter skip
+      if (i === 0 && line.trim() === '---') {
+        var end = md.indexOf('---', 3);
+        if (end !== -1) {
+          i = md.substring(0, end).split('\n').length - 1;
+          continue;
+        }
+      }
+
+      // Blockquote
+      if (line.trim().startsWith('> ')) {
+        if (!inBlockquote) {
+          html += '<blockquote>\n';
+          inBlockquote = true;
+        }
+        html += '<p>' + inlineMarkdown(line.trim().slice(2)) + '</p>\n';
+        continue;
+      } else if (inBlockquote) {
+        html += '</blockquote>\n';
+        inBlockquote = false;
+      }
+
+      // Close list
+      if (inList && !line.trim().match(/^[-*+]\s/) && !line.trim().match(/^\d+\.\s/)) {
+        html += '</' + listTag + '>\n';
+        inList = false;
+      }
+
+      // Headers
+      if (line.match(/^### /)) {
+        html += '<h3>' + inlineMarkdown(line.replace(/^### /, '')) + '</h3>\n';
+        continue;
+      }
+      if (line.match(/^## /)) {
+        html += '<h2>' + inlineMarkdown(line.replace(/^## /, '')) + '</h2>\n';
+        continue;
+      }
+      if (line.match(/^# /)) {
+        html += '<h2>' + inlineMarkdown(line.replace(/^# /, '')) + '</h2>\n';
+        continue;
+      }
+
+      // Unordered list
+      var ulMatch = line.match(/^[-*+]\s(.*)/);
+      if (ulMatch) {
+        if (!inList || listTag !== 'ul') {
+          if (inList) html += '</' + listTag + '>\n';
+          html += '<ul>\n';
+          inList = true;
+          listTag = 'ul';
+        }
+        html += '<li>' + inlineMarkdown(ulMatch[1]) + '</li>\n';
+        continue;
+      }
+
+      // Ordered list
+      var olMatch = line.match(/^\d+\.\s(.*)/);
+      if (olMatch) {
+        if (!inList || listTag !== 'ol') {
+          if (inList) html += '</' + listTag + '>\n';
+          html += '<ol>\n';
+          inList = true;
+          listTag = 'ol';
+        }
+        html += '<li>' + inlineMarkdown(olMatch[1]) + '</li>\n';
+        continue;
+      }
+
+      // Empty line
+      if (line.trim() === '') {
+        html += '\n';
+        continue;
+      }
+
+      // Regular paragraph
+      html += '<p>' + inlineMarkdown(line) + '</p>\n';
+    }
+
+    if (inList) html += '</' + listTag + '>\n';
+    if (inBlockquote) html += '</blockquote>\n';
+
+    return html;
+  }
+
+  function inlineMarkdown(text) {
+    // Bold
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Italic
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    // Inline code
+    text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // Links
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    // Images
+    text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+    return text;
+  }
+})();
+</script>
+
+</body>
+</html>

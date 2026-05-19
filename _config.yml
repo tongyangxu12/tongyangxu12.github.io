@@ -1,0 +1,23 @@
+# GitHub Pages Configuration
+# This site uses static HTML + CSS + JS (no Jekyll build needed).
+# GitHub Pages will serve files directly from the repository root.
+
+# Site settings
+title: Tongyang Xu
+description: Personal Academic Homepage of Tongyang Xu (徐烔炀)
+
+# Build settings
+# No Jekyll plugins needed — this is a static HTML site
+markdown: kramdown
+
+# Exclude from processing
+exclude:
+  - README.md
+  - .gitignore
+
+# Default page
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: null
