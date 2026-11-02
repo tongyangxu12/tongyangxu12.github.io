@@ -46,10 +46,10 @@
 
 **Publications**（新的在最前，完整模板见 `index.html` 注释）：
 - 缩略图：从论文中截取**框架图 / overview 图**，约 1000px 宽 PNG，放 `images/papers/`；显示在 2:1 白底框里，左上角标签写 `ABBR YEAR`（如 `TDSC 2026`）。
-- 标题链接到 DOI。作者写全名，本人 `<b>Tongyang Xu</b>`，共同一作标 `#`，通讯作者标 `*`（与作者名之间无空格）。
+- 标题链接到 DOI 页面（没有 DOI 时链接到 arXiv 页面）。作者写全名，本人 `<b>Tongyang Xu</b>`，共同一作标 `#`，通讯作者标 `*`（与作者名之间无空格）。
 - 期刊/会议行加粗，格式为 `Full Venue Name YEAR (ABBR YEAR)`，括号部分包在 `<span class="nowrap">` 里。
 - **等级标签每篇只标一个**：CCF、JCR 只有一个就标那个；两个都有标级别高的（CCF-A ≈ JCR Q1，CCF-B ≈ Q2，CCF-C ≈ Q3）；同一档优先 CCF。CCF 用 `pub-rank rank-ccf`，JCR 用 `pub-rank rank-jcr`。分区以最新 JCR 为准，拿不准时先问用户。
-- 链接：`[PDF] [Code] [DOI]`；没有 DOI 时用 `[arXiv]`。**不写一句话简介。**
+- 标题下方的链接只放 `[PDF] [Code]`，**不放 `[DOI]`**（和标题链接重复，用户已确认去掉）。**不写一句话简介。**
 - **PDF 只放作者录用稿（accepted manuscript，作者自己的 LaTeX 版）**。不要放从 IEEE Xplore / ScienceDirect 下载的出版社排版版本（页脚有 "Authorized licensed use…" 或期刊页眉的那种），出版社不允许公开转载。
 
 **Education**：`<li><em>YYYY.MM - YYYY.MM</em>, School, University, Degree.</li>`（Degree 写 `Master` / `Bachelor`；未毕业也写预计毕业年月，不加 "Expected"）

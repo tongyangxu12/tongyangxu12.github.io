@@ -47,7 +47,7 @@ Plain HTML + CSS + JavaScript — no framework and no build step (`.nojekyll` te
 - 同一档 → 优先标 CCF
 - CCF 用 `class="pub-rank rank-ccf"`，JCR 用 `class="pub-rank rank-jcr"`
 
-链接顺序：`[PDF]`、`[Code]`，再加 `[DOI]`（没有 DOI 时用 `[arXiv]`）。
+论文标题链接到 DOI 页面（没有 DOI 时链接到 arXiv）；标题下方只放 `[PDF]`、`[Code]`。
 
 ### 写博客
 
