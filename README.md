@@ -3,6 +3,8 @@
 Source of [tongyangxu12.github.io](https://tongyangxu12.github.io/), served by GitHub Pages.
 Plain HTML + CSS + JavaScript — no framework and no build step (`.nojekyll` tells GitHub Pages to serve the files as they are).
 
+> 让 AI agent（Claude Code、Codex、Cursor 等）帮忙修改时，它们会读取 `AGENTS.md`（Claude Code 通过 `CLAUDE.md` 读取），里面记录了设计规范、内容格式和已确认的个人信息。
+
 ## 结构
 
 ```
