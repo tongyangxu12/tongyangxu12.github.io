@@ -78,7 +78,7 @@
 - 硕士：School of Cyber Science and Engineering, Southeast University, Nanjing，2024.09 - 2027.06；导师 Associate Professor Ju Jia（https://cyber.seu.edu.cn/jj/list.htm）。
 - 本科：**B.S.**（理学学士，不是 B.E.）in Data Science and Big Data Technology，College of Computer and Control Engineering, Northeast Forestry University，2020.09 - 2024.06。
 - 研究方向：AI for Software Engineering (AI4SE), LLM Agents, Software Security。
-- 联系方式：xuty1218@163.com；Google Scholar https://scholar.google.com/citations?user=2Sh96roAAAAJ ；GitHub https://github.com/tongyangxu12 。
+- 联系方式：tongyangxu1218@gmail.com（主页上统一用这个，不再用 163 邮箱）；Google Scholar https://scholar.google.com/citations?user=2Sh96roAAAAJ ；GitHub https://github.com/tongyangxu12 。
 
 ## 7. 验证与发布
 
