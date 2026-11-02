@@ -6,7 +6,7 @@ Plain HTML + CSS + JavaScript — no framework and no build step (`.nojekyll` te
 ## 结构
 
 ```
-├── index.html               # 主页：顶栏 + 左栏个人信息 + About / News / Publications / Internships / Awards / Blog
+├── index.html               # 主页：顶栏 + 左栏个人信息 + About / News / Publications / Education / Internships / Awards / Blog
 ├── assets/
 │   ├── css/style.css        # 全部样式（顶部 :root 是浅色主题变量，[data-theme="dark"] 是深色主题变量）
 │   └── js/main.js           # 深色模式切换、导航高亮、主页最新博客列表、“Last updated” 日期
@@ -34,7 +34,7 @@ Plain HTML + CSS + JavaScript — no framework and no build step (`.nojekyll` te
 | 改个人信息、链接 | `index.html` 里 `<aside class="profile">`（`blog/index.html` 里也有一份，记得一起改） |
 | 加 News | `#news` 里加一条 `<li><em>YYYY.MM</em>: ...</li>`，新的放最上面 |
 | 加论文 | `#publications` 里按模板加一个 `.pub-item`；缩略图放 `images/papers/`，PDF 放 `papers/` |
-| 加实习 / 奖项 | `#internships` / `#awards` 里加 `<li>` |
+| 改教育经历 / 加实习 / 奖项 | `#education` / `#internships` / `#awards` 里加 `<li>` |
 | 打开 Services 板块 | 删掉 `#services` 外面的注释，并在顶栏加上 `<a href="#services">Services</a>` |
 | 改主题色 | `assets/css/style.css` 顶部的 `--accent`（深色主题在 `[data-theme="dark"]` 里） |
 
